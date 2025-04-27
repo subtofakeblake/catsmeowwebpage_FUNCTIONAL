@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Sign Up – The Cat's Meow</title>
+  <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOoZ_Eyy_p1gyO-1k8wJPe11g2qkFEaQE",
+      authDomain: "cat-sitting-reviews-data.firebaseapp.com",
+      projectId: "cat-sitting-reviews-data",
+      storageBucket: "cat-sitting-reviews-data.firebasestorage.app",
+      messagingSenderId: "207029228993",
+      appId: "1:207029228993:web:c3f822c187299641d64b40",
+      measurementId: "G-NVF8GCTSSP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const statusMsg = document.getElementById('status-message');
+
+    function showMessage(message, isSuccess = false) {
+      statusMsg.textContent = message;
+      statusMsg.style.color = isSuccess ? 'green' : 'red';
+    }
+
+    document.getElementById('signup-btn').addEventListener('click', async () => {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showMessage('Account created! You are now signed in. Redirecting...', true);
+        setTimeout(() => {
+          window.location.href = 'reviews.html';
+        }, 1500);
+      } catch (error) {
+        showMessage(error.message);
+      }
+    });
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showMessage('Logged in successfully! Redirecting...', true);
+        setTimeout(() => {
+          window.location.href = 'reviews.html';
+        }, 1500);
+      } catch (error) {
+        showMessage(error.message);
+      }
+    });
+
+    if (window.location.search.includes('signedout=true')) {
+      showMessage('Signed out successfully!', true);
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff8f0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .auth-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ff9900;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #e68a00;
+    }
+    #status-message {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h1>The Cat's Meow</h1>
+    <input type="email" id="signup-email" placeholder="Email for Sign Up">
+    <input type="password" id="signup-password" placeholder="Password">
+    <button id="signup-btn">Sign Up</button>
+    <hr>
+    <input type="email" id="login-email" placeholder="Email for Log In">
+    <input type="password" id="login-password" placeholder="Password">
+    <button id="login-btn">Log In</button>
+    <div id="status-message"></div>
+  </div>
+</body>
+</html>

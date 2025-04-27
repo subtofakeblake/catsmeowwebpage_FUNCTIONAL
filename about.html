@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Cat's Meow - About</title>
+  <link href="C:\Users\Blake\Downloads\Cats Meow Vebsite\favicon\favicon.ico" rel="icon" type="image/x-icon">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #b0927a79;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      background: conic-gradient(from 0deg, #111, #222, #111);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 40px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 250px;
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 15px; /* <-- Add this */
+      align-items: start;
+      text-align: left;
+      position: relative;
+    }
+
+
+    .about-text {
+      font-size: 1.25rem;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .about-text ul {
+      padding-left: 20px;
+    }
+
+    .about-text li {
+      margin-bottom: 10px;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 12px 0;
+      margin-top: 40px;
+    }
+
+    nav button {
+      background-color: #f0f0f0;
+      border: 2px solid #ccc;
+      color: #333;
+      font-weight: bold;
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    nav button:hover {
+      background-color: #e0e0e0;
+      border-color: #999;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    @media screen and (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .about-image img {
+    max-width: 100%;     /* <-- Full width on small screens */
+    margin: 20px auto 0;
+  }
+}
+@media screen and (max-width: 600px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+  }
+  nav button {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .home-button:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-3px);
+    }
+  
+  </style>
+  
+</head>
+<body>
+
+  <a href="index.html" class="home-button">&#127968;</a>
+  <main>
+    <h1>About The Cat's Meow</h1>
+    <div class="container">
+      <div class="about-text">
+        <p>We are a family-owned cat sitting business with a passion for providing the best care to your furry friends. Here's a little information about us:</p>
+        <ul>
+          <li><strong>Caring owners of Minnie</strong> (rescued from the Seattle Humane Society)</li>
+          <li><strong>Our names are Blake and Marlowe;</strong> we are 12 (Blake) and 9 (Marlowe) years old.</li>
+          <li><strong>We have been cat sitting for 6 years.</strong> We live in the <strong>Issaquah Highlands.</strong></li>
+          <li><strong>Our parents accompany us on each visit. </strong></li>
+          <li><strong>We LOVE cats!</strong> We will take care of your cat as if it is our own!</li>
+        </ul>
+      </div>
+      <div class="about-image">
+        <img src="https://i.ibb.co/LW95XHq/IMG-1473.jpg" alt="Minnie the cat">
+      </div>
+    </div>
+
+    <nav>
+      <a href="index.html"><button>Home</button></a>
+      <a href="services.html"><button>Services</button></a>
+      <a href="pricing.html"><button>Pricing</button></a>
+      <a href="contact.html"><button>Contact</button></a>
+      <a href="reviews.html"><button>Reviews</button></a>
+    </nav>
+  </main>
+<!-- Footer -->
+<footer style="padding: 15px 0; text-align: center; margin-top: 40px; font-size: 1rem; color: #333;">
+  <p>&copy; 2025 The Cat's Meow Highlands. All rights reserved. [website made by blake]</p>
+</footer>
+
+</body>
+</html>

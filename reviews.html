@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Cat's Meow – Reviews</title>
+  <link href="favicon/favicon.ico" rel="icon" type="image/x-icon">
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCOoZ_Eyy_p1gyO-1k8wJPe11g2qkFEaQE",
+      authDomain: "cat-sitting-reviews-data.firebaseapp.com",
+      projectId: "cat-sitting-reviews-data",
+      storageBucket: "cat-sitting-reviews-data.firebasestorage.app",
+      messagingSenderId: "207029228993",
+      appId: "1:207029228993:web:c3f822c187299641d64b40",
+      measurementId: "G-NVF8GCTSSP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let reviews = [];
+
+    async function loadReviews() {
+      const reviewList = document.getElementById('review-list');
+      const avgRatingEl = document.getElementById('average-rating');
+      reviewList.innerHTML = '';
+      avgRatingEl.textContent = '';
+
+      // loading indicator
+      const loadingEl = document.createElement('div');
+      loadingEl.className = 'loading';
+      loadingEl.textContent = 'Loading reviews...';
+      reviewList.appendChild(loadingEl);
+
+      const snapshot = await getDocs(collection(db, "reviews"));
+      reviews = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        reviews.push({
+          author: data.author,
+          rating: data.rating,
+          text: data.text,
+          createdAt: data.createdAt ? data.createdAt.toMillis() : 0
+        });
+      });
+
+      renderReviews();
+    }
+
+    function renderReviews() {
+      const reviewList = document.getElementById('review-list');
+      const avgRatingEl = document.getElementById('average-rating');
+      const sort = document.getElementById('sort-select').value;
+
+      // sort
+      reviews.sort((a, b) => {
+        if (sort === 'latest')    return b.createdAt - a.createdAt;
+        if (sort === 'oldest')    return a.createdAt - b.createdAt;
+        if (sort === 'highest')   return b.rating - a.rating;
+        if (sort === 'lowest')    return a.rating - b.rating;
+        return 0;
+      });
+
+      reviewList.innerHTML = '';
+      let total = 0, count = 0;
+
+      reviews.forEach(r => {
+        total += r.rating; count++;
+        const box = document.createElement('div');
+        box.className = 'review-box';
+        box.innerHTML = `
+          <div class="stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+          <p class="review-text">“${r.text}”</p>
+          <div class="review-author">— ${r.author}</div>
+        `;
+        reviewList.appendChild(box);
+      });
+
+      if (count) {
+        const avg = (total/count).toFixed(1);
+        const avgStars = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+        avgRatingEl.innerHTML = `Average Rating: <strong>${avg}</strong> ${avgStars}`;
+      } else {
+        avgRatingEl.textContent = 'No reviews yet.';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadReviews();
+
+      document.getElementById('sort-select').addEventListener('change', renderReviews);
+
+      const modal = document.getElementById('review-modal');
+      document.getElementById('add-review').addEventListener('click', () => modal.style.display = 'block');
+      document.querySelector('.close-btn').addEventListener('click', () => modal.style.display = 'none');
+      window.addEventListener('click', e => e.target === modal && (modal.style.display = 'none'));
+
+      document.querySelectorAll('.star-input span').forEach(star => {
+        star.addEventListener('click', () => {
+          const rating = +star.dataset.value;
+          document.getElementById('review-rating').value = rating;
+          document.querySelectorAll('.star-input span').forEach(s =>
+            s.classList.toggle('selected', +s.dataset.value <= rating)
+          );
+        });
+      });
+
+      document.getElementById('submit-review').addEventListener('click', async () => {
+        const author = document.getElementById('review-author').value.trim();
+        const rating = +document.getElementById('review-rating').value;
+        const text = document.getElementById('review-text').value.trim();
+        if (!author || !rating || !text) return alert('Please fill in all fields correctly.');
+        const toast = document.createElement('div');
+        toast.className = 'toast'; toast.textContent = 'Submitting review...';
+        document.body.appendChild(toast);
+        await addDoc(collection(db, 'reviews'), {
+          author,
+          rating,
+          text,
+          createdAt: serverTimestamp()
+        });
+        modal.style.display = 'none';
+        loadReviews();
+        toast.textContent = 'Thanks for your review!';
+        setTimeout(() => toast.remove(), 3000);
+      });
+    });
+  </script>
+  <style>
+    /* modal & form */
+    .modal { display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.4); }
+    .modal-content { background:#fff; margin:10% auto; padding:20px; border-radius:10px; width:90%; max-width:400px; position:relative; }
+    .close-btn { position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#aaa; }
+    .close-btn:hover { color:#000; }
+    .modal-content input, .modal-content textarea { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px; }
+    #submit-review { background:#ff9900; color:#fff; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+    #submit-review:hover { background:#e68a00; }
+
+    /* global */
+    body { margin:0; font-family:'Segoe UI',sans-serif; background:#b0927a79; color:#333; text-align:center; }
+    main { padding:100px 20px 40px; max-width:800px; margin:0 auto; }
+    h1 { font-size:2.5rem; margin-bottom:20px; background:conic-gradient(from 0deg,#111,#222,#111); background-size:200% 200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+    /* filter dropdown */
+    .filter-container {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    #sort-select {
+      padding: 8px 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    #sort-select:hover {
+      border-color: #999;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    #add-review { background:#ff9900; color:#fff; padding:10px 20px; border:none; border-radius:20px; cursor:pointer; margin:20px 0; }
+    #add-review:hover { background:#e68a00; }
+
+    /* star input */
+    .star-input { display:flex; justify-content:center; margin:10px 0; }
+    .star-input span { font-size:1.5rem; cursor:pointer; color:#ccc; margin:0 5px; transition: transform 0.3s ease, color 0.3s ease; }
+    .star-input span.selected { color:#ff9900; transform: scale(1.2); }
+
+    /* reviews list */
+    #average-rating { font-size:1.2rem; margin-bottom:20px; }
+    .loading { font-size:1.2rem; margin:20px 0; }
+    .review-list { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+    .review-box { background:#fff; border:2px solid transparent; border-radius:10px; padding:20px; width:300px; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-align:left; transition:0.3s; }
+    .review-box:hover { transform:translateY(-5px); box-shadow:0 6px 10px rgba(0,0,0,0.15); background:#ffeedd; border-color:#ff9900; }
+    .stars { color:#ff9900; font-size:1.2rem; margin-bottom:8px; animation: pop 0.5s ease; }
+    @keyframes pop { 0% { transform: scale(0.8); opacity:0; } 50% { transform: scale(1.2); opacity:1; } 100% { transform: scale(1); opacity:1; } }
+    .review-text { font-size:1rem; line-height:1.5; margin-bottom:12px; }
+    .review-author { font-weight:bold; font-size:0.9rem; text-align:right; }
+
+    /* toast */
+    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:12px 20px; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
+
+    /* nav & footer */
+    nav { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:12px 0; margin-top:40px; }
+    nav button { background:#f0f0f0; border:2px solid #ccc; color:#333; font-weight:bold; padding:10px 18px; border-radius:20px; cursor:pointer; transition:all 0.3s ease; }
+    nav button:hover { background:#e0e0e0; border-color:#999; transform:translateY(-3px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
+
+    .home-button { position:absolute; top:20px; left:20px; font-size:1.2rem; padding:10px; border-radius:50%; background:#f0f0f0; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-decoration:none; color:#333; transition:all 0.3s ease; }
+    .home-button:hover { background:#e0e0e0; transform:translateY(-3px); }
+
+    footer { padding:15px 0; text-align:center; margin-top:40px; font-size:1rem; color:#333; }
+    @media (max-width:640px) { .review-box { width:90%; } }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="home-button">🏠</a>
+  <main>
+    <h1>What Our Clients Say</h1>
+
+    <!-- new filter dropdown -->
+    <div class="filter-container">
+      <label for="sort-select">Sort by:</label>
+      <select id="sort-select">
+        <option value="latest">Latest</option>
+        <option value="oldest">Oldest</option>
+        <option value="highest">Highest Rating</option>
+        <option value="lowest">Lowest Rating</option>
+      </select>
+    </div>
+
+    <div id="average-rating"></div>
+    <button id="add-review">Add Review</button>
+    <div id="review-list" class="review-list"></div>
+
+    <nav>
+      <a href="index.html"><button>Home</button></a>
+      <a href="about.html"><button>About</button></a>
+      <a href="services.html"><button>Services</button></a>
+      <a href="pricing.html"><button>Pricing</button></a>
+      <a href="contact.html"><button>Contact</button></a>
+    </nav>
+  </main>
+
+  <div id="review-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>Submit Your Review</h2>
+      <input type="text" id="review-author" placeholder="Your Name">
+      <div class="star-input">
+        <span data-value="1">★</span>
+        <span data-value="2">★</span>
+        <span data-value="3">★</span>
+        <span data-value="4">★</span>
+        <span data-value="5">★</span>
+      </div>
+      <input type="hidden" id="review-rating">
+      <textarea id="review-text" placeholder="Write your review"></textarea>
+      <button id="submit-review">Submit Review</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 The Cat's Meow Highlands. All rights reserved. [website made by blake]
+  </footer>
+</body>
+</html>

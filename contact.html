@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Cat's Meow - Contact</title>
+  <link href="favicon/favicon.ico" rel="icon" type="image/x-icon">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #b0927a79;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    input, textarea {
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #f0f0f0;
+      border: 2px solid #ccc;
+      color: #333;
+      font-weight: bold;
+      padding: 12px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+      border-color: #999;
+      transform: translateY(-3px);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 12px 0;
+      margin-top: 40px;
+    }
+
+    nav button {
+      background-color: #f0f0f0;
+      border: 2px solid #ccc;
+      color: #333;
+      font-weight: bold;
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    nav button:hover {
+      background-color: #e0e0e0;
+      border-color: #999;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .home-button:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-3px);
+    }
+
+    footer {
+      padding: 15px 0;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1rem;
+      color: #333;
+    }
+  </style>
+</head>
+
+<script>
+  // Block clicks to external sites
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const currentDomain = window.location.hostname;
+      const targetHref = link.getAttribute('href');
+
+      try {
+        const targetDomain = new URL(link.href).hostname;
+
+        // If the link goes to a different domain
+        if (targetDomain !== currentDomain) {
+          e.preventDefault(); // Stop the redirect
+          alert("This link goes to an external website and has been blocked to keep you safe on The Cat's Meow.");
+        }
+      } catch (err) {
+        console.warn("Invalid URL in link:", link.href);
+      }
+    });
+  });
+</script>
+
+<body>
+
+  <a href="index.html" class="home-button">&#127968;</a>
+
+  <h1>Contact Us</h1>
+  <p>Contact us for any inquiries, to schedule a consultation, or book our cat sitting service.</p>
+
+  <form action="https://formspree.io/f/mgvadjyl" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+
+  <nav>
+    <a href="index.html"><button>Home</button></a>
+    <a href="about.html"><button>About</button></a>
+    <a href="services.html"><button>Services</button></a>
+    <a href="pricing.html"><button>Pricing</button></a>
+    <a href="reviews.html"><button>Reviews</button></a>
+  </nav>
+
+  <footer>
+    <p>&copy; 2025 The Cat's Meow Highlands. All rights reserved. [website made by blake]</p>
+  </footer>
+
+</body>
+</html>

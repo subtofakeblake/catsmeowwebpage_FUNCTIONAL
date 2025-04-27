@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Cat's Meow - Services</title>
+  <link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #b0927a79;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      background: conic-gradient(from 0deg, #111, #222, #111);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 40px;
+    }
+
+    .service {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .service:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      background-color: #ffeedd;
+      border-color: #ff9900;
+    }
+
+    .highlighted-service {
+      background-color: #fff;
+    }
+
+    .service h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .service ul {
+      padding-left: 20px;
+    }
+
+    .service li {
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 12px 0;
+      margin-top: 40px;
+    }
+
+    nav button {
+      background-color: #f0f0f0;
+      border: 2px solid #ccc;
+      color: #333;
+      font-weight: bold;
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    nav button:hover {
+      background-color: #e0e0e0;
+      border-color: #999;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.2rem;
+      padding: 10px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .home-button:hover {
+      background-color: #e0e0e0;
+      transform: translateY(-3px);
+    }
+
+    @media screen and (max-width: 600px) {
+      nav {
+        gap: 10px;
+      }
+
+      nav button {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+
+      .home-button {
+        top: 10px;
+        left: 10px;
+        padding: 8px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="home-button">&#127968;</a>
+
+  <main>
+    <h1>Our Services</h1>
+
+    <div class="service highlighted-service">
+      <h2>🗺️ Areas We Serve:</h2>
+      <ul>
+        <li>West Highlands Park</li>
+        <li>Westridge Townhomes & Neighborhoods</li>
+        <li>Greater Highlands (case-by-case basis)</li>
+      </ul>
+    </div>
+
+    <div class="service">
+      <h2>🐈 Cat Care:</h2>
+      <ul>
+        <li>Love & play</li>
+        <li>Feed & change water</li>
+        <li>Treats & catnip (if requested) and brushing if desired</li>
+        <li>Litterbox scooping</li>
+        <li>We will bring your cat to your preferred vet in case of emergency</li>
+        <li>We will administer medication if requested (with parental guidance)</li>
+      </ul>
+    </div>
+
+    <div class="service">
+      <h2>🏡 Home Care (included with cat care):</h2>
+      <ul>
+        <li>Collect mail and packages</li>
+        <li>Bring recycling and garbage cans out/in</li>
+        <li>Alternate lights (if requested)</li>
+        <li>Water plants</li>
+        <li>Clean and tidy pet areas</li>
+      </ul>
+    </div>
+
+    <nav>
+      <a href="index.html"><button>Home</button></a>
+      <a href="about.html"><button>About</button></a>
+      <a href="pricing.html"><button>Pricing</button></a>
+      <a href="contact.html"><button>Contact</button></a>
+      <a href="reviews.html"><button>Reviews</button></a>
+    </nav>
+  </main>
+
+  <footer style="padding: 15px 0; text-align: center; margin-top: 40px; font-size: 1rem; color: #333;">
+    <p>&copy; 2025 The Cat's Meow Highlands. All rights reserved. [website made by blake]</p>
+  </footer>
+</body>
+</html>

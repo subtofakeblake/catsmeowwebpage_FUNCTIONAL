@@ -5,35 +5,121 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Cat's Meow - About</title>
   <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --paper: #FAF3E7; --ink: #2B2420; --ink-soft: #6B5E52;
+      --pine: #3F5D4E; --pine-dark: #26382F;
+      --marigold: #DDA13B; --marigold-dark: #BD8527; --coral: #E2836B;
+      --card: #FFFDF8; --border: #E3D2B0;
+      --shadow-sm: 0 4px 14px rgba(43, 36, 32, 0.08);
+      --shadow-md: 0 12px 30px rgba(43, 36, 32, 0.14);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #b0927a79;
-      color: #333;
-      padding: 20px;
-      text-align: center;
+      margin: 0; font-family: 'Figtree', sans-serif; background: var(--paper);
+      background-image: radial-gradient(circle at 12% 8%, rgba(63,93,78,0.06), transparent 40%),
+                         radial-gradient(circle at 88% 92%, rgba(221,161,59,0.09), transparent 45%);
+      color: var(--ink);
+    }
+    h1, h2, .display { font-family: 'Fraunces', serif; font-weight: 600; letter-spacing: -0.01em; }
+
+    .site-nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 28px; background: var(--pine); box-shadow: var(--shadow-sm); }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand img { height: 44px; width: auto; display: block; }
+    .brand span { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: #FCF4E4; }
+    .nav-links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .nav-links a { text-decoration: none; }
+    .pill { display: inline-block; font-family: 'Figtree', sans-serif; font-weight: 600; font-size: 0.9rem; color: #FCF4E4; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.18); padding: 9px 18px; border-radius: 999px; transition: all 0.25s ease; white-space: nowrap; }
+    .pill:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+    .pill.current { background: var(--marigold); border-color: var(--marigold); color: #2B2420; }
+    .cta-pill { background: linear-gradient(135deg, var(--marigold), #F0BE63, var(--marigold)); background-size: 200% 200%; color: #2B2420 !important; border: none !important; animation: shimmer 6s ease infinite; }
+    @keyframes shimmer { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+
+    main { max-width: 900px; margin: 0 auto; padding: 56px 24px 40px; }
+    .page-head { text-align: center; margin-bottom: 42px; }
+    .page-head h1 { font-size: clamp(2rem, 4.5vw, 2.6rem); margin: 0 0 10px; }
+    .page-head p { color: var(--ink-soft); font-size: 1.05rem; margin: 0; }
+
+    .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 30px; align-items: start; }
+    .about-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 30px; }
+    .about-card ul { margin: 16px 0 0; padding-left: 4px; list-style: none; }
+    .about-card li { margin-bottom: 14px; padding-left: 30px; position: relative; line-height: 1.6; }
+    .about-card li::before {
+      content: ''; position: absolute; left: 0; top: 4px; width: 18px; height: 18px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='42' rx='16' ry='13' fill='%23DDA13B'/%3E%3Ccircle cx='14' cy='20' r='8' fill='%23DDA13B'/%3E%3Ccircle cx='32' cy='12' r='8.5' fill='%23DDA13B'/%3E%3Ccircle cx='50' cy='20' r='8' fill='%23DDA13B'/%3E%3C/svg%3E");
+      background-size: contain; background-repeat: no-repeat;
+    }
+    .about-photo { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md); border: 1.5px solid var(--border); }
+    .about-photo img { width: 100%; height: auto; display: block; }
+
+    @media screen and (max-width: 720px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .site-nav { flex-direction: column; align-items: stretch; gap: 10px; }
+      .nav-links { justify-content: center; }
     }
 
-    h1 {
-      font-size: 2.5rem;
-      background: conic-gradient(from 0deg, #111, #222, #111);
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 40px;
-    }
+    .site-footer { margin-top: 40px; padding: 30px 20px 26px; text-align: center; background: var(--pine-dark); color: #F3E7D2; font-size: 0.92rem; }
+    .paw-trail { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; opacity: 0.85; }
+    .paw-trail svg { width: 16px; height: 16px; }
 
-    .container {
-      display: grid;
-      grid-template-columns: 1fr 250px;
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 15px; /* <-- Add this */
-      align-items: start;
-      text-align: left;
-      position: relative;
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; } }
+  </style>
+</head>
+<body>
+
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <img src="https://i.ibb.co/cK2khsFX/mewing-cat-removebg-preview-removebg-preview.png" alt="The Cat's Meow logo">
+      <span>The Cat's Meow</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/"><span class="pill">Home</span></a>
+      <a href="/about"><span class="pill current">About</span></a>
+      <a href="/services"><span class="pill">Services</span></a>
+      <a href="/pricing"><span class="pill">Pricing</span></a>
+      <a href="/reviews"><span class="pill">Reviews</span></a>
+      <a href="/contact"><span class="pill cta-pill">Book a Visit</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <h1>About The Cat's Meow</h1>
+      <p>A little family, a lot of love for cats.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-card">
+        <p>We are a family-owned cat sitting business with a passion for providing the best care to your furry friends. Here's a little information about us:</p>
+        <ul>
+          <li><strong>Caring owners of Minnie</strong> (rescued from the Seattle Humane Society)</li>
+          <li><strong>Our names are Blake and Marlowe;</strong> we are 13 (Blake) and 10 (Marlowe) years old.</li>
+          <li><strong>We have been cat sitting for 7 years.</strong> We live in the <strong>Issaquah Highlands.</strong></li>
+          <li><strong>Our parents accompany us on each visit.</strong></li>
+          <li><strong>We LOVE cats!</strong> We will take care of your cat as if it is our own!</li>
+        </ul>
+      </div>
+      <div class="about-photo">
+        <img src="our-cat.jpg" alt="Minnie the cat">
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="paw-trail">
+      <svg viewBox="0 0 64 64" fill="#F3E7D2"><ellipse cx="32" cy="42" rx="16" ry="13"/><circle cx="14" cy="20" r="8"/><circle cx="32" cy="12" r="8.5"/><circle cx="50" cy="20" r="8"/></svg>
+      <svg viewBox="0 0 64 64" fill="#F3E7D2"><ellipse cx="32" cy="42" rx="16" ry="13"/><circle cx="14" cy="20" r="8"/><circle cx="32" cy="12" r="8.5"/><circle cx="50" cy="20" r="8"/></svg>
+      <svg viewBox="0 0 64 64" fill="#F3E7D2"><ellipse cx="32" cy="42" rx="16" ry="13"/><circle cx="14" cy="20" r="8"/><circle cx="32" cy="12" r="8.5"/><circle cx="50" cy="20" r="8"/></svg>
+    </div>
+    <p>&copy; 2026 The Cat's Meow Highlands. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
     }
 
 

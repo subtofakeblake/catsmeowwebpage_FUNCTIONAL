@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Cat's Meow – Reviews</title>
+  <title>Leave a Review!</title>
   <link href="favicon.ico" rel="icon" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import {
@@ -137,81 +140,129 @@
     });
   </script>
   <style>
+    :root {
+      --paper: #FAF3E7; --ink: #2B2420; --ink-soft: #6B5E52;
+      --pine: #3F5D4E; --pine-dark: #26382F;
+      --marigold: #DDA13B; --marigold-dark: #BD8527; --coral: #E2836B;
+      --card: #FFFDF8; --border: #E3D2B0;
+      --shadow-sm: 0 4px 14px rgba(43, 36, 32, 0.08);
+      --shadow-md: 0 12px 30px rgba(43, 36, 32, 0.14);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+
     /* modal & form */
-    .modal { display:none; position:fixed; z-index:1; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.4); }
-    .modal-content { background:#fff; margin:10% auto; padding:20px; border-radius:10px; width:90%; max-width:400px; position:relative; }
-    .close-btn { position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer; color:#aaa; }
-    .close-btn:hover { color:#000; }
-    .modal-content input, .modal-content textarea { width:100%; padding:10px; margin:10px 0; border:1px solid #ccc; border-radius:5px; }
-    #submit-review { background:#ff9900; color:#fff; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
-    #submit-review:hover { background:#e68a00; }
+    .modal { display:none; position:fixed; z-index:200; left:0; top:0; width:100%; height:100%; background:rgba(43,36,32,0.5); }
+    .modal-content { background: var(--card); margin:10% auto; padding:26px; border-radius: var(--radius); width:90%; max-width:400px; position:relative; box-shadow: var(--shadow-md); border: 1.5px solid var(--border); }
+    .modal-content h2 { margin-top: 0; font-size: 1.4rem; }
+    .close-btn { position:absolute; top:14px; right:18px; font-size:24px; cursor:pointer; color: var(--ink-soft); line-height: 1; }
+    .close-btn:hover { color: var(--ink); }
+    .modal-content input, .modal-content textarea {
+      width:100%; padding:12px 14px; margin:8px 0; border:1.5px solid var(--border); border-radius:10px;
+      font-family: 'Figtree', sans-serif; font-size: 1rem; background: var(--paper); color: var(--ink);
+    }
+    .modal-content input:focus, .modal-content textarea:focus { outline: none; border-color: var(--pine); box-shadow: 0 0 0 3px rgba(63,93,78,0.15); }
+    #submit-review {
+      background: var(--marigold); color:#2B2420; padding:13px 20px; border:none; border-radius:999px;
+      cursor:pointer; font-weight: 700; font-size: 1rem; width: 100%; margin-top: 6px; transition: all 0.25s ease;
+    }
+    #submit-review:hover { background: var(--marigold-dark); transform: translateY(-2px); }
 
     /* global */
-    body { margin:0; font-family:'Segoe UI',sans-serif; background:#b0927a79; color:#333; text-align:center; }
-    main { padding:100px 20px 40px; max-width:800px; margin:0 auto; }
-    h1 { font-size:2.5rem; margin-bottom:20px; background:conic-gradient(from 0deg,#111,#222,#111); background-size:200% 200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-
-    /* filter dropdown */
-    .filter-container {
-      margin: 20px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+    body {
+      margin:0; font-family:'Figtree',sans-serif; background: var(--paper);
+      background-image: radial-gradient(circle at 12% 8%, rgba(63,93,78,0.06), transparent 40%),
+                         radial-gradient(circle at 88% 92%, rgba(221,161,59,0.09), transparent 45%);
+      color: var(--ink); text-align:center;
     }
+    h1, h2, .display { font-family: 'Fraunces', serif; font-weight: 600; letter-spacing: -0.01em; }
+
+    .site-nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 28px; background: var(--pine); box-shadow: var(--shadow-sm); }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand img { height: 44px; width: auto; display: block; }
+    .brand span { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: #FCF4E4; }
+    .nav-links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .nav-links a { text-decoration: none; }
+    .pill { display: inline-block; font-family: 'Figtree', sans-serif; font-weight: 600; font-size: 0.9rem; color: #FCF4E4; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.18); padding: 9px 18px; border-radius: 999px; transition: all 0.25s ease; white-space: nowrap; }
+    .pill:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+    .pill.current { background: var(--marigold); border-color: var(--marigold); color: #2B2420; }
+    .cta-pill { background: linear-gradient(135deg, var(--marigold), #F0BE63, var(--marigold)); background-size: 200% 200%; color: #2B2420 !important; border: none !important; animation: shimmer 6s ease infinite; }
+    @keyframes shimmer { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+
+    main { padding: 56px 20px 40px; max-width: 900px; margin: 0 auto; }
+    .page-head { margin-bottom: 30px; }
+    .page-head h1 { font-size: clamp(2rem, 4.5vw, 2.6rem); margin: 0 0 10px; }
+    .page-head p { color: var(--ink-soft); font-size: 1.05rem; margin: 0; }
+
+    .filter-container { margin: 20px 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
     #sort-select {
-      padding: 8px 12px;
-      border: 2px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 0.95rem;
+      cursor: pointer; font-family: 'Figtree', sans-serif; background: var(--card); color: var(--ink);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
-    #sort-select:hover {
-      border-color: #999;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    #sort-select:hover { border-color: var(--marigold); }
+
+    #add-review {
+      background: var(--marigold); color:#2B2420; padding:14px 28px; border:none; border-radius:999px;
+      cursor:pointer; margin: 10px 0 30px; font-weight: 700; font-size: 1rem; box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
     }
+    #add-review:hover { background: var(--marigold-dark); transform: translateY(-3px); box-shadow: var(--shadow-md); }
 
-    #add-review { background:#ff9900; color:#fff; padding:10px 20px; border:none; border-radius:20px; cursor:pointer; margin:20px 0; }
-    #add-review:hover { background:#e68a00; }
-
-    /* star input */
     .star-input { display:flex; justify-content:center; margin:10px 0; }
-    .star-input span { font-size:1.5rem; cursor:pointer; color:#ccc; margin:0 5px; transition: transform 0.3s ease, color 0.3s ease; }
-    .star-input span.selected { color:#ff9900; transform: scale(1.2); }
+    .star-input span { font-size:1.6rem; cursor:pointer; color:#DDD1BC; margin:0 5px; transition: transform 0.3s ease, color 0.3s ease; }
+    .star-input span.selected { color: var(--marigold); transform: scale(1.2); }
 
-    /* reviews list */
-    #average-rating { font-size:1.2rem; margin-bottom:20px; }
-    .loading { font-size:1.2rem; margin:20px 0; }
+    #average-rating { font-size:1.15rem; margin-bottom:10px; color: var(--ink-soft); }
+    #average-rating strong { color: var(--ink); }
+    .loading { font-size:1.1rem; margin:20px 0; color: var(--ink-soft); }
     .review-list { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
-    .review-box { background:#fff; border:2px solid transparent; border-radius:10px; padding:20px; width:300px; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-align:left; transition:0.3s; }
-    .review-box:hover { transform:translateY(-5px); box-shadow:0 6px 10px rgba(0,0,0,0.15); background:#ffeedd; border-color:#ff9900; }
-    .stars { color:#ff9900; font-size:1.2rem; margin-bottom:8px; animation: pop 0.5s ease; }
-    @keyframes pop { 0% { transform: scale(0.8); opacity:0; } 50% { transform: scale(1.2); opacity:1; } 100% { transform: scale(1); opacity:1; } }
-    .review-text { font-size:1rem; line-height:1.5; margin-bottom:12px; }
-    .review-author { font-weight:bold; font-size:0.9rem; text-align:right; }
+    .review-box {
+      background: var(--card); border:1.5px solid var(--border); border-radius: var(--radius);
+      padding:22px; width:300px; box-shadow: var(--shadow-sm); text-align:left; transition: all 0.25s ease;
+    }
+    .review-box:hover { transform:translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--marigold); }
+    .stars { color: var(--marigold); font-size:1.15rem; margin-bottom:10px; }
+    .review-text { font-size:1rem; line-height:1.55; margin-bottom:14px; color: var(--ink); }
+    .review-author { font-weight:700; font-size:0.9rem; text-align:right; color: var(--pine-dark); }
 
-    /* toast */
-    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:12px 20px; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.2); }
+    .toast {
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background: var(--pine-dark);
+      color:#F3E7D2; padding:12px 22px; border-radius:999px; box-shadow: var(--shadow-md); font-weight: 600;
+    }
 
-    /* nav & footer */
-    nav { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:12px 0; margin-top:40px; }
-    nav button { background:#f0f0f0; border:2px solid #ccc; color:#333; font-weight:bold; padding:10px 18px; border-radius:20px; cursor:pointer; transition:all 0.3s ease; }
-    nav button:hover { background:#e0e0e0; border-color:#999; transform:translateY(-3px); box-shadow:0 4px 6px rgba(0,0,0,0.1); }
+    .site-footer { margin-top: 40px; padding: 30px 20px 26px; text-align: center; background: var(--pine-dark); color: #F3E7D2; font-size: 0.92rem; }
+    .paw-trail { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; opacity: 0.85; }
+    .paw-trail svg { width: 16px; height: 16px; }
 
-    .home-button { position:absolute; top:20px; left:20px; font-size:1.2rem; padding:10px; border-radius:50%; background:#f0f0f0; box-shadow:0 4px 6px rgba(0,0,0,0.1); text-decoration:none; color:#333; transition:all 0.3s ease; }
-    .home-button:hover { background:#e0e0e0; transform:translateY(-3px); }
-
-    footer { padding:15px 0; text-align:center; margin-top:40px; font-size:1rem; color:#333; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; } }
+    @media screen and (max-width: 720px) { .site-nav { flex-direction: column; align-items: stretch; gap: 10px; } .nav-links { justify-content: center; } }
     @media (max-width:640px) { .review-box { width:90%; } }
   </style>
 </head>
 <body>
-  <a href="index.html" class="home-button">🏠</a>
-  <main>
-    <h1>What Our Clients Say</h1>
 
-    <!-- new filter dropdown -->
+  <header class="site-nav">
+    <a class="brand" href="/">
+      <img src="https://i.ibb.co/cK2khsFX/mewing-cat-removebg-preview-removebg-preview.png" alt="The Cat's Meow logo">
+      <span>The Cat's Meow</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/"><span class="pill">Home</span></a>
+      <a href="/about"><span class="pill">About</span></a>
+      <a href="/services"><span class="pill">Services</span></a>
+      <a href="/pricing"><span class="pill">Pricing</span></a>
+      <a href="/reviews"><span class="pill current">Reviews</span></a>
+      <a href="/contact"><span class="pill cta-pill">Book a Visit</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-head">
+      <h1>What Our Clients Say</h1>
+      <p>Real notes from neighbors who've trusted us with their cats.</p>
+    </div>
+
     <div class="filter-container">
       <label for="sort-select">Sort by:</label>
       <select id="sort-select">
@@ -225,14 +276,6 @@
     <div id="average-rating"></div>
     <button id="add-review">Add Review</button>
     <div id="review-list" class="review-list"></div>
-
-    <nav>
-      <a href="index.html"><button>Home</button></a>
-      <a href="about.html"><button>About</button></a>
-      <a href="services.html"><button>Services</button></a>
-      <a href="pricing.html"><button>Pricing</button></a>
-      <a href="contact.html"><button>Contact</button></a>
-    </nav>
   </main>
 
   <div id="review-modal" class="modal">
@@ -253,9 +296,14 @@
     </div>
   </div>
 
-  <footer>
-    &copy; 2026 The Cat's Meow Highlands. All rights reserved.
+  <footer class="site-footer">
+    <div class="paw-trail">
+      <svg viewBox="0 0 64 64" fill="#F3E7D2"><ellipse cx="32" cy="42" rx="16" ry="13"/><circle cx="14" cy="20" r="8"/><circle cx="32" cy="12" r="8.5"/><circle cx="50" cy="20" r="8"/></svg>
+      <svg viewBox="0 0 64 64" fill="#F3E7D2"><ellipse cx="32" cy="42" rx="16" ry="13"/><circle cx="14" cy="20" r="8"/><circle cx="32" cy="12" r="8.5"/><circle cx="50" cy="20" r="8"/></svg>
+      <svg viewBox="0 0 64 64" fill="#F3E7D2"><ellipse cx="32" cy="42" rx="16" ry="13"/><circle cx="14" cy="20" r="8"/><circle cx="32" cy="12" r="8.5"/><circle cx="50" cy="20" r="8"/></svg>
+    </div>
+    <p>&copy; 2026 The Cat's Meow Highlands. All rights reserved.</p>
   </footer>
+
 </body>
 </html>
-
